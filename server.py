@@ -1,7 +1,6 @@
-import socket 
-from shark import Sharkduino
+import serial, socket
 
-#shark = Sharkduino()
+ser = serial.Serial("/dev/tty.usbserial-A700emuZ", 9600)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 s.bind(("10.0.2.20", 6767)) 
@@ -12,7 +11,4 @@ while True:
     data = client.recv(1).strip()
     print "got", data
     if data in ("L", "R", "U", "D"):
-        pass #shark
-    else:
-        break
-client.close()
+        ser.write(data)

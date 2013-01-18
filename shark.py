@@ -14,9 +14,9 @@ class Sharkduino() :
         self.ser = None
         self.debug = True
         for baseport in baseports :
-            for i in xrange(0, 9) :
+            for i in range(0, 9):
                 try :
-                    port = baseport + str(i)
+                    port = baseport #+ str(i)
                     if self.debug :
                         print "Trying", port
                     self.ser = serial.Serial(port, 9600)
@@ -48,7 +48,8 @@ class Sharkduino() :
         """Pulse U, D, L or R for a fixed number of milliseconds."""
         if debug :
             print "Pulse %s %d msec" % (direc, millisec)
-        self.ser.write('%s %d\n' % (direc, millisec))
+        #self.ser.write('%s %d\n' % (direc, millisec))
+        self.ser.write('%s' % (direc))
         if debug :
             print "Result:", self.ser.readline()
 
