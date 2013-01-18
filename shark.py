@@ -10,7 +10,7 @@ class Sharkduino() :
     def __init__(self) :
         """Locate the Arduino port and open it."""
         # Port may vary, so look for it:
-        baseports = ['/dev/ttyACM', '/dev/ttyUSB']
+        baseports = ['/dev/tty.usbserial-A700emuZ', '/dev/ttyACM', '/dev/ttyUSB']
         self.ser = None
         self.debug = True
         for baseport in baseports :
