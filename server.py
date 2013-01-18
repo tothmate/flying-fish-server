@@ -1,14 +1,25 @@
 import serial, socket
 
-ser = serial.Serial("/dev/tty.usbserial-A700emuZ", 9600)
+ser = None
+try:
+    ser = serial.Serial("/dev/tty.usbserial-A700emuZ", 9600)
+except:
+    print "no serial connection"
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-s.bind(("10.0.2.20", 6767)) 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostbyname(socket.gethostname())
+port = 6767
+print "listening on", host, port
+s.bind((host, port)) 
 s.listen(1)
 client, address = s.accept()
 print "connected"
 while True: 
-    data = client.recv(1).strip()
+    data = client.recv(1)
+    if data == '': break
     print "got", data
     if data in ("L", "R", "U", "D"):
-        ser.write(data)
+        if ser is not None:
+            ser.write(data)
+client.close()
+s.close()
