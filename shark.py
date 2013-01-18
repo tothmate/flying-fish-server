@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+# from: http://shallowsky.com/software/arduino/sharkuino/
+
 # Send commands to the Air Swimmers shark via an Arduino.
 
 import sys, serial
@@ -60,7 +62,7 @@ class Sharkduino() :
         pulse('U', amount)
 
     def down(self, amount) :
-        pulse('U', amount)
+        pulse('D', amount)
 
 if __name__ == '__main__':
     shark = Sharkduino()
