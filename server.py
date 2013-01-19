@@ -11,18 +11,23 @@ except:
 
 def up():
     ser.write("U")
+    ser.flush()
 
 def down():
     ser.write("D")
+    ser.flush()
 
 def left():
     ser.write("L")
+    ser.flush()
 
 def right():
     ser.write("R")
+    ser.flush()
 
 def stop():
     ser.write("S")
+    ser.flush()
 
 def go(speed=5, direction=0):
     if not (1 <= speed <= 10 and -90 <= direction <= 90):
