@@ -43,9 +43,9 @@ def go(speed=5, direction=0):
     while cmd_length > 0:
         movement_length = 1200 - speed*60
 
-        if direction > 30   
+        if direction > 30:
             right_movement_length = int(movement_length/2 + (movement_length*46/100)*(direction/90.0))
-        else
+        else:
             right_movement_length = int(movement_length/2 + (movement_length*4/10)*(direction/90.0))
 
         left_movement_length = movement_length - right_movement_length
