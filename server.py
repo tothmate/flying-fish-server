@@ -1,10 +1,11 @@
-import serial, socket
+import serial, socket, sys
 
 ser = None
 try:
     ser = serial.Serial("/dev/tty.usbserial-A700emuZ", 9600)
 except:
     print "no serial connection"
+    ser = sys.stdout
 
 
 def up(length=100):
@@ -63,7 +64,6 @@ while True:
     if data == '': break
     data = data.strip()
     print "got", data
-    if ser is not None:
-        process_command(data)
+    process_command(data)
 client.close()
 s.close()
