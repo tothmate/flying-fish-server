@@ -101,7 +101,7 @@ while True:
     data = client.recv(1024)
     if data == '': break
     data = data.strip()
-    print "got", data
+    print "\ngot", data
     process_data(data)
 client.close()
 s.close()
