@@ -57,6 +57,8 @@ def send_next():
             up()
         elif cmd == "down":
             up()
+        elif cmd == "stop":
+            stop()
         timer = Timer(timeout, send_next)
         timer.start()
 
@@ -77,7 +79,7 @@ def process_data(data):
             else:
                 go()
         elif cmd == "S":
-            execute_commands([])
+            execute_commands([("stop", 1)])
     except Exception, e:
         print "error when processing", e
 
