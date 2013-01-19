@@ -37,8 +37,8 @@ def go(speed=5, direction=0):
     cmd_queue = []
 
     while cmd_length > 0:
-        movement_length = 1000 - speed*90
-        right_movement_length = int(movement_length/2 - (movement_length*4/10)*(direction/90.0))
+        movement_length = 1200 - speed*60
+        right_movement_length = int(movement_length/2 + (movement_length*4/10)*(direction/90.0))
         left_movement_length = movement_length - right_movement_length
         cmd_queue.append(("right", right_movement_length))
         cmd_queue.append(("left", left_movement_length))
@@ -95,13 +95,14 @@ port = 6767
 print "listening on", host, port
 s.bind((host, port)) 
 s.listen(1)
-client, address = s.accept()
-print "connected"
-while True: 
-    data = client.recv(1024)
-    if data == '': break
-    data = data.strip()
-    print "\ngot", data
-    process_data(data)
-client.close()
-s.close()
+while True:
+    client, address = s.accept()
+    print "client connected"
+    while True: 
+        data = client.recv(1024)
+        if data == '': break
+        data = data.strip()
+        print "\ngot", data
+        process_data(data)
+    print "client disconnected"
+    client.close()
