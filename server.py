@@ -19,10 +19,14 @@ def down():
 
 def left():
     ser.write("L")
+    sys.stdout.write("L")
+    sys.stdout.flush()
     ser.flush()
 
 def right():
     ser.write("R")
+    sys.stdout.write("R")
+    sys.stdout.flush()
     ser.flush()
 
 def stop():
@@ -70,7 +74,7 @@ def send_next():
 def execute_commands(commands):
     global current_commands, timer
     current_commands = commands
-    if timer and not timer.finished:
+    if timer:
         timer.cancel()
     send_next()
 
