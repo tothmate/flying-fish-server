@@ -25,9 +25,21 @@ def stop():
     ser.write("S")
 
 def go(speed=5, direction=0):
-    if not (0 <= speed <= 10 and -90 <= direction <= 90):
+    if not (1 <= speed <= 10 and -90 <= direction <= 90):
         return
-    execute_commands([("left", 1000), ("right", speed*1000), ("right", 2000)])
+
+    cmd_length = 3000
+    cmd_queue = []
+
+    while cmd_length > 0:
+        movement_length = 1000 - speed*90
+        right_movement_length = int(movement_length/2 - (movement_length*4/10)*(direction/90.0))
+        left_movement_length = movement_length - right_movement_length
+        cmd_queue.append(("right", right_movement_length))
+        cmd_queue.append(("left", left_movement_length))
+        cmd_length -= movement_length
+
+    execute_commands(cmd_queue)
 
 timer = None
 current_commands = []
@@ -36,7 +48,6 @@ def send_next():
     global current_commands, timer
     if len(current_commands) > 0:
         (cmd, timeout) = current_commands.pop(0)
-        print "send_next", cmd, timeout
         timeout = timeout/1000.0
         if cmd == "left":
             left()
