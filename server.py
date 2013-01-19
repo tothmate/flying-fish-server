@@ -1,4 +1,5 @@
 import serial, socket, sys
+from threading import Timer
 
 ser = None
 try:
@@ -26,26 +27,46 @@ def stop():
 def go(speed=5, direction=0):
     if not (0 <= speed <= 10 and -90 <= direction <= 90):
         return
+    execute_commands([("left", 1000), ("right", speed*1000), ("right", 2000)])
 
-    pass
+timer = None
+current_commands = []
 
-def process_command(data):
+def send_next():
+    global current_commands, timer
+    if len(current_commands) > 0:
+        (cmd, timeout) = current_commands.pop(0)
+        print "send_next", cmd, timeout
+        timeout = timeout/1000.0
+        if cmd == "left":
+            left()
+        elif cmd == "right":
+            right()
+        elif cmd == "up":
+            up()
+        elif cmd == "down":
+            up()
+        timer = Timer(timeout, send_next)
+        timer.start()
+
+def execute_commands(commands):
+    global current_commands, timer
+    current_commands = commands
+    if timer and not timer.finished:
+        timer.cancel()
+    send_next()
+
+def process_data(data):
     try:
         params = data.split(",")
         cmd = params.pop(0)
-        if cmd == "U":
-            up()
-        elif cmd == "D":
-            down()
-        elif cmd == "L":
-            left()
-        elif cmd == "R":
-            right()
-        elif cmd == "G":
+        if cmd == "G":
             if len(params) > 0:
                 go(int(params[0]), int(params[1]))
             else:
                 go()
+        elif cmd == "S":
+            execute_commands([])
     except Exception, e:
         print "error when processing", e
 
@@ -63,6 +84,6 @@ while True:
     if data == '': break
     data = data.strip()
     print "got", data
-    process_command(data)
+    process_data(data)
 client.close()
 s.close()
