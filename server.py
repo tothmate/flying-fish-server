@@ -49,6 +49,7 @@ print "connected"
 while True: 
     data = client.recv(1024)
     if data == '': break
+    data = data.strip()
     print "got", data
     if ser is not None:
         process_command(data)
