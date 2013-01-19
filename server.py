@@ -14,28 +14,40 @@ def down(length=100):
     ser.write("D %d\n" % length)
 
 def left(length=100):
+    print "left", length
     ser.write("L %d\n" % length)
 
 def right(length=100):
     ser.write("R %d\n" % length)
 
-def swim(length=10):
-    for i in xrange(0, length):
+def go(speed=5, direction=0):
+    if not (0 <= speed <= 10 and -90 <= direction <= 90):
+        return
+
+    for i in xrange(0, 10):
         left(80)
         right(160)
         left(80)
 
 def process_command(data):
-    if data == "U":
-        up()
-    elif data == "D":
-        down()
-    elif data == "L":
-        left()
-    elif data == "R":
-        right()
-    elif data == "S":
-        swim()
+    try:
+        params = data.split(",")
+        cmd = params.pop(0)
+        if cmd == "U":
+            up()
+        elif cmd == "D":
+            down()
+        elif cmd == "L":
+            left()
+        elif cmd == "R":
+            right()
+        elif cmd == "G":
+            if len(params) > 0:
+                go(int(params[0]), int(params[1]))
+            else:
+                go()
+    except Exception, e:
+        print "error when processing", e
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
