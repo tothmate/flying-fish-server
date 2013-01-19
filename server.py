@@ -8,27 +8,26 @@ except:
     ser = sys.stdout
 
 
-def up(length=100):
-    ser.write("U %d\n" % length)
+def up():
+    ser.write("U")
 
-def down(length=100):
-    ser.write("D %d\n" % length)
+def down():
+    ser.write("D")
 
-def left(length=100):
-    print "left", length
-    ser.write("L %d\n" % length)
+def left():
+    ser.write("L")
 
-def right(length=100):
-    ser.write("R %d\n" % length)
+def right():
+    ser.write("R")
+
+def stop():
+    ser.write("S")
 
 def go(speed=5, direction=0):
     if not (0 <= speed <= 10 and -90 <= direction <= 90):
         return
 
-    for i in xrange(0, 10):
-        left(80)
-        right(160)
-        left(80)
+    pass
 
 def process_command(data):
     try:
