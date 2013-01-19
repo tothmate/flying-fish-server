@@ -99,14 +99,15 @@ port = 6767
 print "listening on", host, port
 s.bind((host, port)) 
 s.listen(1)
-client, address = s.accept()
-print "client connected"
-while True: 
-    data = client.recv(1024)
-    if data == '': break
-    data = data.strip()
-    print "\ngot", data
-    process_data(data)
-print "client disconnected"
-client.close()
-s.close()
+while True:
+    client, address = s.accept()
+    print "client connected"
+
+    while True: 
+        data = client.recv(1024)
+        if data == '': break
+        data = data.strip()
+        print "\ngot", data
+        process_data(data)
+    print "client disconnected"
+    client.close()
